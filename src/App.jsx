@@ -8,28 +8,33 @@ function App() {
   const appId = import.meta.env.VITE_FACEBOOK_APP_ID; // Ensure your App ID is set in .env file
   console.log(appId)
   useEffect(() => {
-    // Load the Facebook SDK
-    window.fbAsyncInit = function() {
-      console.log('FB SDK Loaded');
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk')
+    );
+
+
+    window.fbAsyncInit = function () {
       FB.init({
-        appId: appId,
-        cookie: true,
+        appId: '{your-facebook-app-id}',
         xfbml: true,
-        version: 'v13.0.2',
+        version: '{the-graph-api-version-for-your-app}'
+      });
+      FB.login(function (response) {
+        if (response.authResponse) {
+          console.log('Welcome!  Fetching your information.... ');
+          FB.api('/me', { fields: 'name, email' }, function (response) {
+            document.getElementById("profile").innerHTML = "Good to see you, " + response.name + ". i see your email address is " + response.email
+          });
+        } else {
+          console.log('User cancelled login or did not fully authorize.');
+        }
       });
     };
-    
-    (function(d, s, id) {
-      const js = d.createElement(s);
-      js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk.js';
-      const fjs = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) return;
-      fjs.parentNode.insertBefore(js, fjs);
-      js.onload = function() {
-        console.log('FB SDK Script Loaded');
-      };
-    }(document, 'script', 'facebook-jssdk'));
   }, [appId]);
 
   const handleLogin = () => {
@@ -41,7 +46,7 @@ function App() {
           setError('User cancelled login or did not fully authorize.');
         }
       }, { scope: 'public_profile,email,user_managed_groups,pages_show_list' });
-      
+
     } catch (error) {
       console.log(error)
     }
@@ -64,6 +69,7 @@ function App() {
   return (
     <div>
       <h1>Facebook Graph API Demo</h1>
+      <p id="profile"></p>
       <button onClick={handleLogin}>Login with Facebook</button>
       {error && <p>Error: {error}</p>}
       {userData && (
