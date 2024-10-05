@@ -9,20 +9,26 @@ function App() {
   console.log(appId)
   useEffect(() => {
     // Load the Facebook SDK
-    window.fbAsyncInit = function () {
-      window.FB.init({
+    window.fbAsyncInit = function() {
+      console.log('FB SDK Loaded');
+      FB.init({
         appId: appId,
         cookie: true,
         xfbml: true,
-        version: 'v13.0.2', // Ensure you're using a valid version of the Facebook SDK
+        version: 'v13.0.2',
       });
     };
-
-    (function (d, s, id) {
+    
+    (function(d, s, id) {
       const js = d.createElement(s);
       js.id = id;
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
-      d.getElementsByTagName('head')[0].appendChild(js);
+      const fjs = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) return;
+      fjs.parentNode.insertBefore(js, fjs);
+      js.onload = function() {
+        console.log('FB SDK Script Loaded');
+      };
     }(document, 'script', 'facebook-jssdk'));
   }, [appId]);
 
