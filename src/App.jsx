@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
-import './index.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios'; // Ensure axios is installed with `npm install axios` or `yarn add axios`
+import './index.css';
+
 function App() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
-  const appId = import.meta.env.VITE_FACEBOOK_APP_ID; // Replace with your App ID
-
+  const appId = import.meta.env.VITE_FACEBOOK_APP_ID; // Ensure your App ID is set in .env file
+  console.log(appId)
   useEffect(() => {
     // Load the Facebook SDK
     window.fbAsyncInit = function () {
@@ -12,7 +14,7 @@ function App() {
         appId: appId,
         cookie: true,
         xfbml: true,
-        version: 'v21.0', // Change this to the latest valid version
+        version: 'v21.0', // Ensure you're using a valid version of the Facebook SDK
       });
     };
 
@@ -23,7 +25,6 @@ function App() {
       d.getElementsByTagName('head')[0].appendChild(js);
     }(document, 'script', 'facebook-jssdk'));
   }, [appId]);
-
 
   const handleLogin = () => {
     window.FB.login((response) => {
@@ -70,8 +71,6 @@ function App() {
       )}
     </div>
   );
-};
-
-
+}
 
 export default App;
