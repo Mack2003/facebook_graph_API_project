@@ -14,7 +14,7 @@ function App() {
         appId: appId,
         cookie: true,
         xfbml: true,
-        version: 'v21.0', // Ensure you're using a valid version of the Facebook SDK
+        version: 'v13.0.2', // Ensure you're using a valid version of the Facebook SDK
       });
     };
 
