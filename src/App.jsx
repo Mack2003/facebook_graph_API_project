@@ -33,13 +33,18 @@ function App() {
   }, [appId]);
 
   const handleLogin = () => {
-    window.FB.login((response) => {
-      if (response.authResponse) {
-        fetchUserData(response.authResponse.accessToken);
-      } else {
-        setError('User cancelled login or did not fully authorize.');
-      }
-    }, { scope: 'public_profile,email,user_managed_groups,pages_show_list' });
+    try {
+      window.FB.login((response) => {
+        if (response.authResponse) {
+          fetchUserData(response.authResponse.accessToken);
+        } else {
+          setError('User cancelled login or did not fully authorize.');
+        }
+      }, { scope: 'public_profile,email,user_managed_groups,pages_show_list' });
+      
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const fetchUserData = async (accessToken) => {
