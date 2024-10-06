@@ -20,9 +20,9 @@ function App() {
 
     window.fbAsyncInit = function () {
       FB.init({
-        appId: '{your-facebook-app-id}',
+        appId: appId,
         xfbml: true,
-        version: '{the-graph-api-version-for-your-app}'
+        version: 'v21.0'
       });
       FB.login(function (response) {
         if (response.authResponse) {
