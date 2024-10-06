@@ -39,16 +39,16 @@ function App() {
 
   const handleLogin = () => {
     try {
-      window.FB.login(function(response) {
+      window.FB.login(function (response) {
         if (response.authResponse) {
-         console.log('Welcome!  Fetching your information.... ');
-         FB.api('/me', function(response) {
-           console.log('Good to see you, ' + response.name + '.');
-         });
+          console.log('Welcome!  Fetching your information.... ');
+          FB.api('/me', function (response) {
+            console.log('Good to see you, ' + response.name + '.');
+          });
         } else {
-         console.log('User cancelled login or did not fully authorize.');
+          console.log('User cancelled login or did not fully authorize.');
         }
-    });
+      });
     } catch (error) {
       console.log(error)
     }
@@ -70,6 +70,12 @@ function App() {
 
   return (
     <div>
+      <div
+        class="fb-like"
+        data-share="true"
+        data-width="450"
+        data-show-faces="true">
+      </div>
       <h1>Facebook Graph API Demo</h1>
       <p id="profile"></p>
       <button onClick={handleLogin}>Login with Facebook</button>
