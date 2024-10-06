@@ -5,10 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '846031140973804',
+          xfbml            : true,
+          version          : 'v21.0'
+        });
+      };
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
   </body>
 </html>

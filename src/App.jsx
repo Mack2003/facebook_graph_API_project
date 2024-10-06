@@ -7,46 +7,48 @@ function App() {
   const [error, setError] = useState(null);
   const appId = import.meta.env.VITE_FACEBOOK_APP_ID; // Ensure your App ID is set in .env file
   console.log(appId)
-  useEffect(() => {
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk')
-    );
+  // useEffect(() => {
+  //   (function (d, s, id) {
+  //     var js, fjs = d.getElementsByTagName(s)[0];
+  //     if (d.getElementById(id)) { return; }
+  //     js = d.createElement(s); js.id = id;
+  //     js.src = "https://connect.facebook.net/en_US/sdk.js";
+  //     fjs.parentNode.insertBefore(js, fjs);
+  //   }(document, 'script', 'facebook-jssdk')
+  //   );
 
 
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: appId,
-        xfbml: true,
-        version: 'v21.0'
-      });
-      FB.login(function (response) {
-        if (response.authResponse) {
-          console.log('Welcome!  Fetching your information.... ');
-          FB.api('/me', { fields: 'name, email' }, function (response) {
-            document.getElementById("profile").innerHTML = "Good to see you, " + response.name + ". i see your email address is " + response.email
-          });
-        } else {
-          console.log('User cancelled login or did not fully authorize.');
-        }
-      });
-    };
-  }, [appId]);
+  //   window.fbAsyncInit = function () {
+  //     FB.init({
+  //       appId: appId,
+  //       xfbml: true,
+  //       version: 'v21.0'
+  //     });
+  //     FB.login(function (response) {
+  //       if (response.authResponse) {
+  //         console.log('Welcome!  Fetching your information.... ');
+  //         FB.api('/me', { fields: 'name, email' }, function (response) {
+  //           document.getElementById("profile").innerHTML = "Good to see you, " + response.name + ". i see your email address is " + response.email
+  //         });
+  //       } else {
+  //         console.log('User cancelled login or did not fully authorize.');
+  //       }
+  //     });
+  //   };
+  // }, [appId]);
 
   const handleLogin = () => {
     try {
-      window.FB.login((response) => {
+      window.FB.login(function(response) {
         if (response.authResponse) {
-          fetchUserData(response.authResponse.accessToken);
+         console.log('Welcome!  Fetching your information.... ');
+         FB.api('/me', function(response) {
+           console.log('Good to see you, ' + response.name + '.');
+         });
         } else {
-          setError('User cancelled login or did not fully authorize.');
+         console.log('User cancelled login or did not fully authorize.');
         }
-      }, { scope: 'public_profile,email,user_managed_groups,pages_show_list' });
-
+    });
     } catch (error) {
       console.log(error)
     }
